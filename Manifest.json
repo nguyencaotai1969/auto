@@ -2,7 +2,7 @@
    "browser_action": {
       "default_icon": "icon.png",
       "default_popup": "view.html" ,
-      "default_title": "tools auto site"
+      "default_title": "tools auto site news"
    },
    "description": "Công cụ hỗ trợ lấy Tương Tác",
    "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
