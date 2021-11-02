@@ -65,7 +65,6 @@ function pageScroll() {
 
 			//kiểm tra nếu đây là kéo xuống cuối trang thì clear timeout
 		    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-					
 				
 			   	//nếu thuộc domain block không phải chạy tự động kéo trang chuột nữa
 				if(emptyValue(filterItems(String(window.location.hostname)))){
