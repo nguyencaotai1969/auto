@@ -6,7 +6,10 @@ var domain_no_scoll = [
 	'www.facebook.com',
 	'facebook.com',
 	'console.cloud.google.com',
-	'bitlylink.fun'
+	'bitlylink.fun',
+	'stackoverflow.com',
+	'github.com',
+	'www.w3schools.com'
 ];
 
 chrome.runtime.onMessage.addListener(Reactions);
@@ -27,23 +30,45 @@ function autoLoadpage(){
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
-
 //kiểm tra site đã load đủ giữ liệu ra hay chưa
-window.addEventListener('load', (event) => {
-   pageScroll();
-});
+if (document.readyState == "complete") {
 
+      	pageScroll();
+
+}else{
+	// chưa load xong check tiếp khi load xong thì thôi
+	window.addEventListener("load", function() {
+              	pageScroll();
+
+    }, false);
+}
 //kiểm tra có phải domain host không
 function checkdomain(){
 		if(String(window.location.hostname) == domain){
+			
 			let list_item = document.getElementsByClassName("read-title");
-
+			
 			// lấy ngẫu nhiêm url trong dom
 			let url_random = list_item[getRandomInt(list_item.length)].querySelectorAll("a")[0].href;
 			window.location.href = url_random;
-		}else{
-			window.location.href = "http://"+domain;
+			return;
 		}
+		 
+		let http_domain = "http://"+window.location.hostname+"/";
+		let https_domain = "https://"+window.location.hostname+"/";
+		// nếu không phải trang chủ của site thì về trang chủ trước
+		if(window.location.href == http_domain || window.location.href == https_domain){
+			console.log('trang chu');
+			window.location.href = "http://"+domain;
+
+		}else{
+			window.location.href = "http://"+window.location.hostname;
+
+			console.log('k phai trang chu');
+
+		}
+		//chuyển hướng về site của mình
+
 }
 
 //fillter
@@ -54,38 +79,44 @@ function filterItems(query) {
 }
 //empty value
 function emptyValue(value){
-	return value === undefined || value === null || value === NaN || (typeof value === 'object' && Object.keys(value).length === 0 || (typeof value === 'string' && value.trim().length === 0));
+	return 
+	value.length === 0 ||
+	value === undefined || 
+	value === null || 
+	value === NaN || 
+	(typeof value === 'object' && Object.keys(value).length === 0 || 
+	(typeof value === 'string' && value.trim().length === 0));
 }
 
 //tự động kéo tin như đang đọc tin
 function pageScroll() {
 
-	//sự kiện kiểm tra đã xuống cuối cùng của trang hay chưa 
-	window.onscroll = function(ev) {
-
-			//kiểm tra nếu đây là kéo xuống cuối trang thì clear timeout
-		    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-				
-			   	//nếu thuộc domain block không phải chạy tự động kéo trang chuột nữa
-				if(emptyValue(filterItems(String(window.location.hostname)))){
-						// kiểm tra domain
-						checkdomain();
-						
-						//xóa cookies
-						deleteCookies(); 
-
-					   	clearTimeout(scrolldelay);
-				}
-		    }
-	};
-
 	//nếu thuộc domain block không phải chạy tự động kéo trang chuột nữa
-    if(emptyValue(filterItems(String(window.location.hostname)))){
+    if(filterItems(String(window.location.hostname)).length == 0){
 		window.scrollBy(0,10);
     	scrolldelay = setTimeout(pageScroll,300);
 	}
 }
 
+// //sự kiện kiểm tra đã xuống cuối cùng của trang hay chưa 
+window.onscroll = function(ev) {
+	 // @var int totalPageHeight
+    var totalPageHeight = document.body.scrollHeight; 
+
+    // @var int scrollPoint
+    var scrollPoint = window.scrollY + window.innerHeight;
+
+    // check if we hit the bottom of the page
+    if(scrollPoint >= totalPageHeight && filterItems(String(window.location.hostname)).length == 0)
+    {
+				//xóa cookies
+				deleteCookies(); 				
+				// kiểm tra domain
+				setTimeout(()=>{
+					checkdomain();
+				},getRandomInt(15)*2000);
+    }
+};
 // xóa tất cả cookies
 function deleteCookies() {
     var allCookies = document.cookie.split(';');
