@@ -9,12 +9,13 @@ var domain_no_scoll = [
 	'bitlylink.fun',
 	'stackoverflow.com',
 	'github.com',
-	'www.w3schools.com'
+	'www.w3schools.com',
+	// 'news22h.com'
+	'tintuc22h.com'
 ];
 
 chrome.runtime.onMessage.addListener(Reactions);
 	function Reactions(message,sender,sendResponse){
-
 }
 autoLoadpage();
 
@@ -30,11 +31,10 @@ function autoLoadpage(){
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
+
 //kiểm tra site đã load đủ giữ liệu ra hay chưa
 if (document.readyState == "complete") {
-
       	pageScroll();
-
 }else{
 	// chưa load xong check tiếp khi load xong thì thôi
 	window.addEventListener("load", function() {
@@ -58,17 +58,12 @@ function checkdomain(){
 		let https_domain = "https://"+window.location.hostname+"/";
 		// nếu không phải trang chủ của site thì về trang chủ trước
 		if(window.location.href == http_domain || window.location.href == https_domain){
-			console.log('trang chu');
 			window.location.href = "http://"+domain;
 
 		}else{
 			window.location.href = "http://"+window.location.hostname;
-
-			console.log('k phai trang chu');
-
 		}
 		//chuyển hướng về site của mình
-
 }
 
 //fillter
@@ -93,7 +88,7 @@ function pageScroll() {
 
 	//nếu thuộc domain block không phải chạy tự động kéo trang chuột nữa
     if(filterItems(String(window.location.hostname)).length == 0){
-		window.scrollBy(0,10);
+		window.scrollBy(0,getRandomInt(8)+10);
     	scrolldelay = setTimeout(pageScroll,300);
 	}
 }
