@@ -88,7 +88,7 @@ function pageScroll() {
 
 	//nếu thuộc domain block không phải chạy tự động kéo trang chuột nữa
     if(filterItems(String(window.location.hostname)).length == 0){
-		window.scrollBy(0,getRandomInt(8)+5);
+		window.scrollBy(0,getRandomInt(8)+1);
     	scrolldelay = setTimeout(pageScroll,300);
 	}
 }
