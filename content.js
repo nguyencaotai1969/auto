@@ -19,12 +19,12 @@ chrome.runtime.onMessage.addListener(Reactions);
 }
 autoLoadpage();
 
-//10 phút chạy 1 lần
+//5 phút chạy 1 lần
 function autoLoadpage(){
 	setInterval(function(){
 		deleteCookies();
 		location.reload();
-	},600000);
+	},300000);
 }
 
 //random int
@@ -88,7 +88,7 @@ function pageScroll() {
 
 	//nếu thuộc domain block không phải chạy tự động kéo trang chuột nữa
     if(filterItems(String(window.location.hostname)).length == 0){
-		window.scrollBy(0,getRandomInt(8)+10);
+		window.scrollBy(0,getRandomInt(8)+5);
     	scrolldelay = setTimeout(pageScroll,300);
 	}
 }
