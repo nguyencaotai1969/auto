@@ -11,7 +11,7 @@ var domain_no_scoll = [
 	'github.com',
 	'www.w3schools.com',
 	// 'news22h.com'
-	'tintuc22h.com'
+	// 'tintuc22h.com'
 ];
 
 chrome.runtime.onMessage.addListener(Reactions);
