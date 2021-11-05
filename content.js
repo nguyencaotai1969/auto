@@ -23,7 +23,7 @@ autoLoadpage();
 function autoLoadpage(){
 	setInterval(function(){
 		deleteCookies();
-		location.reload();
+		document.location.reload(true);
 	},300000);
 }
 
