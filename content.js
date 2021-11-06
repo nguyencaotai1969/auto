@@ -1,5 +1,8 @@
 
+//domain site gốc
 var domain = 'tintuc22h.com';
+
+//các domain không cần tự động kéo
 var domain_no_scoll = [
 	'www.google.com',
 	'google.com',
@@ -7,12 +10,19 @@ var domain_no_scoll = [
 	'facebook.com',
 	'console.cloud.google.com',
 	'bitlylink.fun',
-	'stackoverflow.com',
+	// 'stackoverflow.com',
 	'github.com',
 	'www.w3schools.com',
+	'developer.mozilla.org'
 	// 'news22h.com'
 	// 'tintuc22h.com'
 ];
+
+//tổng số lần xuống cuối trang
+let count_Pagebottom = 0;
+
+//tổng số lần request site ngoài 
+let count_siteOut = 0;
 
 chrome.runtime.onMessage.addListener(Reactions);
 	function Reactions(message,sender,sendResponse){
@@ -44,26 +54,28 @@ if (document.readyState == "complete") {
 }
 //kiểm tra có phải domain host không
 function checkdomain(){
+
 		if(String(window.location.hostname) == domain){
-			
-			let list_item = document.getElementsByClassName("read-title");
-			
-			// lấy ngẫu nhiêm url trong dom
-			let url_random = list_item[getRandomInt(list_item.length)].querySelectorAll("a")[0].href;
-			window.location.href = url_random;
+
+			count_Pagebottom ++;
+			//nếu số lần kéo xuống cuối trang đủ 5 lần thì chuyển sang 1 trang khác
+			if(count_Pagebottom >= 5){
+				let list_item = document.getElementsByClassName("read-title");
+				// lấy ngẫu nhiêm url trong dom
+				let url_random = list_item[getRandomInt(list_item.length)].querySelectorAll("a")[0].href;
+				window.location.href = url_random;
+			}
+			smoothscroll();
 			return;
 		}
 		 
 		let http_domain = "http://"+window.location.hostname+"/";
 		let https_domain = "https://"+window.location.hostname+"/";
-		// nếu không phải trang chủ của site thì về trang chủ trước
-		if(window.location.href == http_domain || window.location.href == https_domain){
+		// nếu phải trang chủ của site chuyển hướng về site của mình
+		if(domain != http_domain || domain != https_domain){
 			window.location.href = "http://"+domain;
-
-		}else{
-			window.location.href = "http://"+window.location.hostname;
 		}
-		//chuyển hướng về site của mình
+		
 }
 
 //fillter
@@ -72,6 +84,7 @@ function filterItems(query) {
       return el.toLowerCase().indexOf(query.toLowerCase()) > -1;
   })
 }
+
 //empty value
 function emptyValue(value){
 	return 
@@ -93,8 +106,18 @@ function pageScroll() {
 	}
 }
 
-// //sự kiện kiểm tra đã xuống cuối cùng của trang hay chưa 
+//về đầu trang
+function smoothscroll(){
+    var currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+    if (currentScroll > 0) {
+         window.requestAnimationFrame(smoothscroll);
+         window.scrollTo (0,currentScroll - (currentScroll/5));
+    }
+};
+
+//sự kiện kiểm tra đã xuống cuối cùng của trang hay chưa 
 window.onscroll = function(ev) {
+
 	 // @var int totalPageHeight
     var totalPageHeight = document.body.scrollHeight; 
 
@@ -103,15 +126,18 @@ window.onscroll = function(ev) {
 
     // check if we hit the bottom of the page
     if(scrollPoint >= totalPageHeight && filterItems(String(window.location.hostname)).length == 0)
-    {
+    {	
 				//xóa cookies
-				deleteCookies(); 				
-				// kiểm tra domain
+				deleteCookies(); 
+
+				// // kiểm tra domain
 				setTimeout(()=>{
 					checkdomain();
 				},getRandomInt(15)*2000);
+
     }
 };
+
 // xóa tất cả cookies
 function deleteCookies() {
     var allCookies = document.cookie.split(';');
