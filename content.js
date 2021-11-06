@@ -17,8 +17,12 @@ var domain_no_scoll = [
 	'accounts.google.com',
 	'gist.github.com',
 	'toidicode.com',
-	// 'news22h.com'
-	// 'tintuc22h.com'
+	'news22h.com',
+	// 'tintuc22h.com',
+	'order.surfshark.com',
+	'surfshark.com',
+	'temp-mail.org',
+	'whatismyipaddress.com',
 ];
 
 //tổng số lần xuống cuối trang
@@ -41,7 +45,7 @@ chrome.runtime.onMessage.addListener(Reactions);
 	}
 
 if(sessionStorage.getItem("timeReload") != null){
-	
+
 	autoLoadpage(sessionStorage.getItem("timeReload"));
 	//load lại page
 	function autoLoadpage(timeint){
@@ -50,9 +54,6 @@ if(sessionStorage.getItem("timeReload") != null){
 		},timeint);
 	}
 }
-console.log(sessionStorage.getItem("timeReload"));
-
-
 
 //random int
 function getRandomInt(max) {
@@ -77,23 +78,26 @@ function checkdomain(){
 			count_Pagebottom ++;
 
 			//nếu số lần kéo xuống cuối trang đủ 5 lần thì chuyển sang 1 trang khác
-			if(count_Pagebottom >= 7){
+			if(count_Pagebottom >= 6){
 				let list_item = document.getElementsByClassName("read-title");
 				// lấy ngẫu nhiêm url trong dom
 				let url_random = list_item[getRandomInt(list_item.length)].querySelectorAll("a")[0].href;
 				window.location.href = url_random;
 			}
 			smoothscroll();
+			clearInterval(scrolldelay);
+
 			return;
 		}
 		 
 		let http_domain = "http://"+window.location.hostname+"/";
 		let https_domain = "https://"+window.location.hostname+"/";
+
 		// nếu phải trang chủ của site chuyển hướng về site của mình
 		if(domain != http_domain || domain != https_domain){
-			window.location.href = "http://"+domain;
+			window.location.href = "https://"+domain;
 		}
-		
+
 }
 
 //fillter
@@ -119,7 +123,7 @@ function pageScroll() {
 
 	//nếu thuộc domain block không phải chạy tự động kéo trang chuột nữa
     if(filterItems(String(window.location.hostname)).length == 0){
-		window.scrollBy(0,getRandomInt(8)+40);
+		window.scrollBy(0,getRandomInt(8)+10);
     	scrolldelay = setTimeout(pageScroll,300);
 	}
 }
@@ -148,7 +152,7 @@ window.onscroll = function(ev) {
 				//xóa cookies
 				deleteCookies(); 
 
-				// // kiểm tra domain
+				// kiểm tra domain
 				setTimeout(()=>{
 					checkdomain();
 				},getRandomInt(15)*2000);
