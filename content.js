@@ -58,8 +58,9 @@ function checkdomain(){
 		if(String(window.location.hostname) == domain){
 
 			count_Pagebottom ++;
+
 			//nếu số lần kéo xuống cuối trang đủ 5 lần thì chuyển sang 1 trang khác
-			if(count_Pagebottom >= 5){
+			if(count_Pagebottom >= 7){
 				let list_item = document.getElementsByClassName("read-title");
 				// lấy ngẫu nhiêm url trong dom
 				let url_random = list_item[getRandomInt(list_item.length)].querySelectorAll("a")[0].href;
@@ -101,7 +102,7 @@ function pageScroll() {
 
 	//nếu thuộc domain block không phải chạy tự động kéo trang chuột nữa
     if(filterItems(String(window.location.hostname)).length == 0){
-		window.scrollBy(0,getRandomInt(8)+1);
+		window.scrollBy(0,getRandomInt(8)+40);
     	scrolldelay = setTimeout(pageScroll,300);
 	}
 }
