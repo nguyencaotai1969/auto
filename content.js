@@ -10,10 +10,13 @@ var domain_no_scoll = [
 	'facebook.com',
 	'console.cloud.google.com',
 	'bitlylink.fun',
-	// 'stackoverflow.com',
+	'stackoverflow.com',
 	'github.com',
 	'www.w3schools.com',
-	'developer.mozilla.org'
+	'developer.mozilla.org',
+	'accounts.google.com',
+	'gist.github.com',
+	'toidicode.com',
 	// 'news22h.com'
 	// 'tintuc22h.com'
 ];
@@ -24,18 +27,32 @@ let count_Pagebottom = 0;
 //tổng số lần request site ngoài 
 let count_siteOut = 0;
 
+//thời gian load lại trang;
+var timeReload = 500000000;
+
 chrome.runtime.onMessage.addListener(Reactions);
 	function Reactions(message,sender,sendResponse){
-}
-autoLoadpage();
+		timeReload = parseInt(message.timeloadpage);
+		if(timeReload != null){
+			sessionStorage.setItem("timeReload", timeReload);
+			console.log('thời gian load page'+sessionStorage.getItem("timeReload"));	
+		}
+		
+	}
 
-//5 phút chạy 1 lần
-function autoLoadpage(){
-	setInterval(function(){
-		deleteCookies();
-		document.location.reload(true);
-	},300000);
+if(sessionStorage.getItem("timeReload") != null){
+	
+	autoLoadpage(sessionStorage.getItem("timeReload"));
+	//load lại page
+	function autoLoadpage(timeint){
+		setInterval(function(){
+			document.location.reload();
+		},timeint);
+	}
 }
+console.log(sessionStorage.getItem("timeReload"));
+
+
 
 //random int
 function getRandomInt(max) {
@@ -48,10 +65,10 @@ if (document.readyState == "complete") {
 }else{
 	// chưa load xong check tiếp khi load xong thì thôi
 	window.addEventListener("load", function() {
-              	pageScroll();
-
+         pageScroll();
     }, false);
 }
+
 //kiểm tra có phải domain host không
 function checkdomain(){
 
