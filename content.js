@@ -41,7 +41,6 @@ chrome.runtime.onMessage.addListener(Reactions);
 			sessionStorage.setItem("timeReload", timeReload);
 			console.log('thời gian load page'+sessionStorage.getItem("timeReload"));	
 		}
-		
 	}
 
 if(sessionStorage.getItem("timeReload") != null){
@@ -72,20 +71,24 @@ if (document.readyState == "complete") {
 
 //kiểm tra có phải domain host không
 function checkdomain(){
-
+		let url_random = "";
 		if(String(window.location.hostname) == domain){
-
-			count_Pagebottom ++;
-
-			//nếu số lần kéo xuống cuối trang đủ 5 lần thì chuyển sang 1 trang khác
-			if(count_Pagebottom >= 6){
-				let list_item = document.getElementsByClassName("read-title");
-				// lấy ngẫu nhiêm url trong dom
-				let url_random = list_item[getRandomInt(list_item.length)].querySelectorAll("a")[0].href;
-				window.location.href = url_random;
-			}
-			smoothscroll();
 			clearInterval(scrolldelay);
+			// lấy ngẫu nhiêm url trong dom
+			if(getRandomInt(2) === 1){
+				console.log('vao 1');
+				let list_item = document.getElementsByClassName("read-title");
+				url_random = list_item[getRandomInt(list_item.length)].querySelectorAll("a")[0].href;
+			}else{
+				console.log('vao 2');
+				let list_item2 = document.getElementsByClassName("wp-block-latest-posts__featured-image");
+				url_random = list_item2[getRandomInt(list_item2.length)].querySelectorAll("a")[0].href;
+
+			}
+			
+			window.location.href = url_random;
+
+			// smoothscroll();
 
 			return;
 		}
@@ -148,7 +151,7 @@ window.onscroll = function(ev) {
 
     // check if we hit the bottom of the page
     if(scrollPoint >= totalPageHeight && filterItems(String(window.location.hostname)).length == 0)
-    {	
+    {		
 				//xóa cookies
 				deleteCookies(); 
 
@@ -156,7 +159,6 @@ window.onscroll = function(ev) {
 				setTimeout(()=>{
 					checkdomain();
 				},getRandomInt(15)*2000);
-
     }
 };
 
