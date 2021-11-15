@@ -1,6 +1,9 @@
 
 //domain site gốc
-var domain = 'tintuc22h.com';
+var domain = {
+	host1:'tintuc22h.com',
+	host2:'news22h.com'
+};
 
 //các domain không cần tự động kéo
 var domain_no_scoll = [
@@ -17,13 +20,21 @@ var domain_no_scoll = [
 	'accounts.google.com',
 	'gist.github.com',
 	'toidicode.com',
-	'news22h.com',
+	// 'news22h.com',
 	// 'tintuc22h.com',
 	'order.surfshark.com',
 	'surfshark.com',
 	'temp-mail.org',
 	'whatismyipaddress.com',
 ];
+
+//các dom class
+var domClass = {
+	class1:'read-title',
+	class2:'wp-block-latest-posts__featured-image',
+	class3:'jeg_post_title'
+};
+
 
 //tổng số lần xuống cuối trang
 let count_Pagebottom = 0;
@@ -71,35 +82,59 @@ if (document.readyState == "complete") {
 
 //kiểm tra có phải domain host không
 function checkdomain(){
+		
 		let url_random = "";
-		if(String(window.location.hostname) == domain){
-			clearInterval(scrolldelay);
+		let hostname_domain = String(window.location.hostname);
+		clearInterval(scrolldelay);
+
+		if(hostname_domain == domain.host1){
+
 			// lấy ngẫu nhiêm url trong dom
 			if(getRandomInt(2) === 1){
-				console.log('vao 1');
-				let list_item = document.getElementsByClassName("read-title");
+				let list_item = document.getElementsByClassName(domClass.class1);
 				url_random = list_item[getRandomInt(list_item.length)].querySelectorAll("a")[0].href;
+
 			}else{
-				console.log('vao 2');
-				let list_item2 = document.getElementsByClassName("wp-block-latest-posts__featured-image");
+				let list_item2 = document.getElementsByClassName(domClass.class2);
 				url_random = list_item2[getRandomInt(list_item2.length)].querySelectorAll("a")[0].href;
 
 			}
+
+			//lưu vào bộ nhớ
+			chrome.storage.local.set({url_random: url_random}, function() {
+	          console.log('Value storage is set to url_random');
+	        });
 			
 			window.location.href = url_random;
-
 			// smoothscroll();
-
 			return;
 		}
-		 
-		let http_domain = "http://"+window.location.hostname+"/";
-		let https_domain = "https://"+window.location.hostname+"/";
 
-		// nếu phải trang chủ của site chuyển hướng về site của mình
-		if(domain != http_domain || domain != https_domain){
-			window.location.href = "https://"+domain;
+		if(hostname_domain == domain.host2){
+
+			//tìm dom url
+			let list_domain_item2 = document.getElementsByClassName(domClass.class3);
+
+			//kiểm tra dom
+			list_domain_item2 = list_domain_item2 ? list_domain_item2 : "https://"+domain.host2;
+
+			//lấy 1 url ngẫu nhiên trong dom
+			let url_random2 = list_domain_item2[getRandomInt(list_domain_item2.length)].querySelectorAll("a")[0].href
+			
+			//chuyển hướng url ngẫu nhiên lấy đc
+			window.location.href = url_random2.length > 0 ? url_random2 : "https://"+domain.host2;
 		}
+		
+		// nếu khong phải domain chính của site chuyển hướng về site của mình theo url đã lưu trong storage
+		if(domain.host1 !== hostname_domain && domain.host2 !== hostname_domain){
+			
+			// Read it using the storage API
+	        chrome.storage.local.get(['url_random'], function(result) {
+	          window.location.href = result.url_random.length > 0 ? result.url_random : "https://"+domain.host1;
+	        });
+			
+		}
+
 
 }
 
@@ -123,11 +158,10 @@ function emptyValue(value){
 
 //tự động kéo tin như đang đọc tin
 function pageScroll() {
-
 	//nếu thuộc domain block không phải chạy tự động kéo trang chuột nữa
     if(filterItems(String(window.location.hostname)).length == 0){
 		window.scrollBy(0,getRandomInt(8)+10);
-    	scrolldelay = setTimeout(pageScroll,300);
+    	scrolldelay = setTimeout(pageScroll,300+getRandomInt(700));
 	}
 }
 
@@ -156,9 +190,12 @@ window.onscroll = function(ev) {
 				deleteCookies(); 
 
 				// kiểm tra domain
+				// setTimeout(()=>{
+				// 	checkdomain();
+				// },getRandomInt(15)*2000);
 				setTimeout(()=>{
 					checkdomain();
-				},getRandomInt(15)*2000);
+				},1000)
     }
 };
 

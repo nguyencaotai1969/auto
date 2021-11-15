@@ -18,7 +18,6 @@
       "16": "icon.png",
       "48": "icon.png"
    },
-   
    "name": "tools auto site",
    "permissions": [
    	"*://*/*",

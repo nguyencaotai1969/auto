@@ -1,4 +1,7 @@
 try{
+    // Store
+                sessionStorage.setItem("domainhhhhhhhhHost","hostname_domain");
+
 	$(".btn-save-time").click(function(){
       		let timeloadpage =	$(".reloadpage").val();
       		var queryInfo = {
