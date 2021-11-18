@@ -13,7 +13,7 @@ var domain_no_scoll = [
 	'facebook.com',
 	'console.cloud.google.com',
 	'bitlylink.fun',
-	'stackoverflow.com',
+	// 'stackoverflow.com',
 	'github.com',
 	'www.w3schools.com',
 	'developer.mozilla.org',
@@ -128,15 +128,19 @@ function checkdomain(){
 		// nếu khong phải domain chính của site chuyển hướng về site của mình theo url đã lưu trong storage
 		if(domain.host1 !== hostname_domain && domain.host2 !== hostname_domain){
 			
-			// Read it using the storage API
+			//nếu là url click quảng cáo thì về trang chủ của url đó trước
+			//rồi mà chuyển về trang của mình
+			if(document.location.href != document.location.origin+"/"){
+				window.location.href = document.location.origin;
+				return;
+			}
+
 	        chrome.storage.local.get(['url_random'], function(result) {
-	        	let locationDomain = result.url_random.length > 0 ? result.url_random : "https://"+domain.host1;
+	        	let locationDomain = !emptyValue(result.url_random) ? result.url_random : "https://"+domain.host1;
 	          	window.location.href = locationDomain;
 	        });
 			
 		}
-
-
 }
 
 //fillter
@@ -162,7 +166,7 @@ function pageScroll() {
 	//nếu thuộc domain block không phải chạy tự động kéo trang chuột nữa
     if(filterItems(String(window.location.hostname)).length == 0){
 		window.scrollBy(0,getRandomInt(8)+10);
-    	scrolldelay = setTimeout(pageScroll,300+getRandomInt(700));
+    	scrolldelay = setTimeout(pageScroll,10+getRandomInt(1500));
 	}
 }
 
@@ -191,9 +195,12 @@ window.onscroll = function(ev) {
 				deleteCookies(); 
 
 				// kiểm tra domain
+				// setTimeout(()=>{
+				// 	checkdomain();
+				// },getRandomInt(15)*2000);
 				setTimeout(()=>{
 					checkdomain();
-				},getRandomInt(15)*2000);
+				},100);
     }
 };
 
