@@ -105,8 +105,8 @@ function checkdomain(){
 	          console.log('Value storage is set to url_random');
 	        });
 			
-			window.location.href = url_random;
-			// smoothscroll();
+			//window.location.href = url_random;
+			smoothscroll();
 			return;
 		}
 
@@ -130,7 +130,8 @@ function checkdomain(){
 			
 			// Read it using the storage API
 	        chrome.storage.local.get(['url_random'], function(result) {
-	          window.location.href = result.url_random.length > 0 ? result.url_random : "https://"+domain.host1;
+	        	let locationDomain = result.url_random.length > 0 ? result.url_random : "https://"+domain.host1;
+	          	window.location.href = locationDomain;
 	        });
 			
 		}
