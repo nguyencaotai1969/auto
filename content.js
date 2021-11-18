@@ -195,12 +195,10 @@ window.onscroll = function(ev) {
 				deleteCookies(); 
 
 				// kiểm tra domain
-				// setTimeout(()=>{
-				// 	checkdomain();
-				// },getRandomInt(15)*2000);
 				setTimeout(()=>{
 					checkdomain();
-				},100);
+				},getRandomInt(15)*2000);
+			
     }
 };
 
