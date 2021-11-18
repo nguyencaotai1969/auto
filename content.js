@@ -1,6 +1,9 @@
 
 //domain site gốc
-var domain = 'tintuc22h.com';
+var domain = {
+	host1:'tintuc22h.com',
+	host2:'news22h.com'
+};
 
 //các domain không cần tự động kéo
 var domain_no_scoll = [
@@ -10,20 +13,28 @@ var domain_no_scoll = [
 	'facebook.com',
 	'console.cloud.google.com',
 	'bitlylink.fun',
-	'stackoverflow.com',
+	// 'stackoverflow.com',
 	'github.com',
 	'www.w3schools.com',
 	'developer.mozilla.org',
 	'accounts.google.com',
 	'gist.github.com',
 	'toidicode.com',
-	'news22h.com',
+	// 'news22h.com',
 	// 'tintuc22h.com',
 	'order.surfshark.com',
 	'surfshark.com',
 	'temp-mail.org',
 	'whatismyipaddress.com',
 ];
+
+//các dom class
+var domClass = {
+	class1:'read-title',
+	class2:'wp-block-latest-posts__featured-image',
+	class3:'jeg_post_title'
+};
+
 
 //tổng số lần xuống cuối trang
 let count_Pagebottom = 0;
@@ -41,7 +52,6 @@ chrome.runtime.onMessage.addListener(Reactions);
 			sessionStorage.setItem("timeReload", timeReload);
 			console.log('thời gian load page'+sessionStorage.getItem("timeReload"));	
 		}
-		
 	}
 
 if(sessionStorage.getItem("timeReload") != null){
@@ -72,32 +82,65 @@ if (document.readyState == "complete") {
 
 //kiểm tra có phải domain host không
 function checkdomain(){
+		
+		let url_random = "";
+		let hostname_domain = String(window.location.hostname);
+		clearInterval(scrolldelay);
 
-		if(String(window.location.hostname) == domain){
+		if(hostname_domain == domain.host1){
 
-			count_Pagebottom ++;
+			// lấy ngẫu nhiêm url trong dom
+			if(getRandomInt(2) === 1){
+				let list_item = document.getElementsByClassName(domClass.class1);
+				url_random = list_item[getRandomInt(list_item.length)].querySelectorAll("a")[0].href;
 
-			//nếu số lần kéo xuống cuối trang đủ 5 lần thì chuyển sang 1 trang khác
-			if(count_Pagebottom >= 6){
-				let list_item = document.getElementsByClassName("read-title");
-				// lấy ngẫu nhiêm url trong dom
-				let url_random = list_item[getRandomInt(list_item.length)].querySelectorAll("a")[0].href;
-				window.location.href = url_random;
+			}else{
+				let list_item2 = document.getElementsByClassName(domClass.class2);
+				url_random = list_item2[getRandomInt(list_item2.length)].querySelectorAll("a")[0].href;
+
 			}
-			smoothscroll();
-			clearInterval(scrolldelay);
 
+			//lưu vào bộ nhớ
+			chrome.storage.local.set({url_random: url_random}, function() {
+	          console.log('Value storage is set to url_random');
+	        });
+			
+			//window.location.href = url_random;
+			smoothscroll();
 			return;
 		}
-		 
-		let http_domain = "http://"+window.location.hostname+"/";
-		let https_domain = "https://"+window.location.hostname+"/";
 
-		// nếu phải trang chủ của site chuyển hướng về site của mình
-		if(domain != http_domain || domain != https_domain){
-			window.location.href = "https://"+domain;
+		if(hostname_domain == domain.host2){
+
+			//tìm dom url
+			let list_domain_item2 = document.getElementsByClassName(domClass.class3);
+
+			//kiểm tra dom
+			list_domain_item2 = list_domain_item2 ? list_domain_item2 : "https://"+domain.host2;
+
+			//lấy 1 url ngẫu nhiên trong dom
+			let url_random2 = list_domain_item2[getRandomInt(list_domain_item2.length)].querySelectorAll("a")[0].href
+			
+			//chuyển hướng url ngẫu nhiên lấy đc
+			window.location.href = url_random2.length > 0 ? url_random2 : "https://"+domain.host2;
 		}
+		
+		// nếu khong phải domain chính của site chuyển hướng về site của mình theo url đã lưu trong storage
+		if(domain.host1 !== hostname_domain && domain.host2 !== hostname_domain){
+			
+			//nếu là url click quảng cáo thì về trang chủ của url đó trước
+			//rồi mà chuyển về trang của mình
+			if(document.location.href != document.location.origin+"/"){
+				window.location.href = document.location.origin;
+				return;
+			}
 
+	        chrome.storage.local.get(['url_random'], function(result) {
+	        	let locationDomain = !emptyValue(result.url_random) ? result.url_random : "https://"+domain.host1;
+	          	window.location.href = locationDomain;
+	        });
+			
+		}
 }
 
 //fillter
@@ -120,11 +163,10 @@ function emptyValue(value){
 
 //tự động kéo tin như đang đọc tin
 function pageScroll() {
-
 	//nếu thuộc domain block không phải chạy tự động kéo trang chuột nữa
     if(filterItems(String(window.location.hostname)).length == 0){
 		window.scrollBy(0,getRandomInt(8)+10);
-    	scrolldelay = setTimeout(pageScroll,300);
+    	scrolldelay = setTimeout(pageScroll,10+getRandomInt(1500));
 	}
 }
 
@@ -148,7 +190,7 @@ window.onscroll = function(ev) {
 
     // check if we hit the bottom of the page
     if(scrollPoint >= totalPageHeight && filterItems(String(window.location.hostname)).length == 0)
-    {	
+    {		
 				//xóa cookies
 				deleteCookies(); 
 
@@ -156,7 +198,7 @@ window.onscroll = function(ev) {
 				setTimeout(()=>{
 					checkdomain();
 				},getRandomInt(15)*2000);
-
+			
     }
 };
 

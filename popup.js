@@ -1,4 +1,5 @@
 try{
+    // Store
 	$(".btn-save-time").click(function(){
       		let timeloadpage =	$(".reloadpage").val();
       		var queryInfo = {
