@@ -13,7 +13,7 @@ var domain_no_scoll = [
 	'facebook.com',
 	'console.cloud.google.com',
 	'bitlylink.fun',
-	// 'stackoverflow.com',
+	'stackoverflow.com',
 	'github.com',
 	'www.w3schools.com',
 	'developer.mozilla.org',
@@ -138,6 +138,7 @@ function checkdomain(){
 	        chrome.storage.local.get(['url_random'], function(result) {
 	        	let locationDomain = !emptyValue(result.url_random) ? result.url_random : "https://"+domain.host1;
 	          	window.location.href = locationDomain;
+	          	return;
 	        });
 			
 		}
@@ -166,7 +167,7 @@ function pageScroll() {
 	//nếu thuộc domain block không phải chạy tự động kéo trang chuột nữa
     if(filterItems(String(window.location.hostname)).length == 0){
 		window.scrollBy(0,getRandomInt(8)+10);
-    	scrolldelay = setTimeout(pageScroll,10+getRandomInt(1500));
+    	scrolldelay = setTimeout(pageScroll,10+getRandomInt(1000));
 	}
 }
 
