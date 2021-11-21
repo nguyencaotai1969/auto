@@ -136,7 +136,7 @@ function checkdomain(){
 			}
 
 	        chrome.storage.local.get(['url_random'], function(result) {
-	        	let locationDomain = !emptyValue(result.url_random) ? result.url_random : "https://"+domain.host1;
+	        	let locationDomain = result.length !== undefined ? result.url_random : "https://"+domain.host1;
 	          	window.location.href = locationDomain;
 	          	return;
 	        });
@@ -199,7 +199,7 @@ window.onscroll = function(ev) {
 				setTimeout(()=>{
 					checkdomain();
 				},getRandomInt(15)*2000);
-			
+
     }
 };
 
