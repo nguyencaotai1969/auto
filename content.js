@@ -1,3 +1,9 @@
+/*
+https://chrome.google.com/webstore/detail/free-vpn/njpmifchgidinihmijhcfpbdmglecdlb
+https://chrome.google.com/webstore/detail/vpn-professional-free-unl/foiopecknacmiihiocgdjgbjokkpkohc?hl=vi
+*/
+
+
 
 //domain site gốc
 var domain = {
@@ -45,6 +51,7 @@ let count_siteOut = 0;
 //thời gian load lại trang;
 var timeReload = 500000000;
 
+// sự kiện lắng nghe click load page theo giây
 chrome.runtime.onMessage.addListener(Reactions);
 	function Reactions(message,sender,sendResponse){
 		timeReload = parseInt(message.timeloadpage);
@@ -86,7 +93,6 @@ function checkdomain(){
 		let url_random = "";
 		let hostname_domain = String(window.location.hostname);
 		clearInterval(scrolldelay);
-
 		if(hostname_domain == domain.host1){
 
 			// lấy ngẫu nhiêm url trong dom
@@ -130,8 +136,28 @@ function checkdomain(){
 			
 			//nếu là url click quảng cáo thì về trang chủ của url đó trước
 			//rồi mà chuyển về trang của mình
+
 			if(document.location.href != document.location.origin+"/"){
-				window.location.href = document.location.origin;
+
+				//số set số lần loadpage
+				if(sessionStorage.getItem("count_loadPage") == null){
+					sessionStorage.setItem("count_loadPage",count_siteOut+1);
+				}
+
+				let coutPage = parseInt(sessionStorage.getItem("count_loadPage"));
+				coutPage++;
+				sessionStorage.setItem("count_loadPage",coutPage);
+
+				//nếu số lần load page lớn hớn 15 thì thì chuyển về site chính 
+				//còn k chuyển về host của site hiện tại
+				if(parseInt(sessionStorage.getItem("count_loadPage")) > 15){
+					chrome.storage.local.get(['url_random'], function(result) {
+			        	let locationDomain = result.length !== undefined ? result.url_random : "https://"+domain.host1;
+			          	window.location.href = locationDomain;
+			        });
+				}else{
+						window.location.href = document.location.origin;
+				}
 				return;
 			}
 
@@ -140,7 +166,6 @@ function checkdomain(){
 	          	window.location.href = locationDomain;
 	          	return;
 	        });
-			
 		}
 }
 
@@ -199,7 +224,6 @@ window.onscroll = function(ev) {
 				setTimeout(()=>{
 					checkdomain();
 				},getRandomInt(15)*2000);
-
     }
 };
 
