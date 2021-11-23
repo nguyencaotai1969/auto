@@ -162,6 +162,7 @@ function checkdomain(){
 			}
 
 	        chrome.storage.local.get(['url_random'], function(result) {
+	        	sessionStorage.setItem("count_loadPage",0);
 	        	let locationDomain = result.length !== undefined ? result.url_random : "https://"+domain.host1;
 	          	window.location.href = locationDomain;
 	          	return;
