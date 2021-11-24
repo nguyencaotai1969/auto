@@ -152,7 +152,7 @@ function checkdomain(){
 				//còn k chuyển về host của site hiện tại
 				if(parseInt(sessionStorage.getItem("count_loadPage")) > 15){
 					chrome.storage.local.get(['url_random'], function(result) {
-			        	let locationDomain = result.length !== undefined ? result.url_random : "https://"+domain.host1;
+			        	let locationDomain = result.url_random.length !== undefined ? result.url_random : "https://"+domain.host1;
 			          	window.location.href = locationDomain;
 			        });
 				}else{
@@ -163,7 +163,7 @@ function checkdomain(){
 
 	        chrome.storage.local.get(['url_random'], function(result) {
 	        	sessionStorage.setItem("count_loadPage",0);
-	        	let locationDomain = result.length !== undefined ? result.url_random : "https://"+domain.host1;
+	        	let locationDomain = result.url_random.length !== undefined ? result.url_random : "https://"+domain.host1;
 	          	window.location.href = locationDomain;
 	          	return;
 	        });
