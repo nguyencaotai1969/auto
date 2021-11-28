@@ -4,7 +4,6 @@ https://chrome.google.com/webstore/detail/vpn-professional-free-unl/foiopecknacm
 */
 
 
-
 //domain site gốc
 var domain = {
 	host1:'tintuc22h.com',
@@ -125,10 +124,10 @@ function checkdomain(){
 			list_domain_item2 = list_domain_item2 ? list_domain_item2 : "https://"+domain.host2;
 
 			//lấy 1 url ngẫu nhiên trong dom
-			let url_random2 = list_domain_item2[getRandomInt(list_domain_item2.length)].querySelectorAll("a")[0].href
+			let url_random2 = list_domain_item2[getRandomInt(list_domain_item2.length)].querySelectorAll("a");
 			
-			//chuyển hướng url ngẫu nhiên lấy đc
-			window.location.href = url_random2.length > 0 ? url_random2 : "https://"+domain.host2;
+			//click url ngẫu nhiên lấy đc con khong thi chuyen huong ve trang chu
+			url_random2.length > 0 ? url_random2[0].click() : window.location.href = "https://"+domain.host2;
 		}
 		
 		// nếu khong phải domain chính của site chuyển hướng về site của mình theo url đã lưu trong storage
