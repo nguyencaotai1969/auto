@@ -110,7 +110,7 @@ function checkdomain(){
 	          console.log('Value storage is set to url_random');
 	        });
 			
-			//window.location.href = url_random;
+			window.location.href = url_random;
 			smoothscroll();
 			return;
 		}
