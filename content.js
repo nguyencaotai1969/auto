@@ -7,7 +7,7 @@ https://chrome.google.com/webstore/detail/vpn-professional-free-unl/foiopecknacm
 //domain site gốc
 var domain = {
 	host1:'tintuc22h.com',
-	host2:'news22h.com'
+	host2:'newsplus247.com'
 };
 
 //các domain không cần tự động kéo
