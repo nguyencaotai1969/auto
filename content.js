@@ -6,8 +6,8 @@ https://chrome.google.com/webstore/detail/vpn-professional-free-unl/foiopecknacm
 
 //domain site gốc
 var domain = {
-	host1:'tintuc22h.com',
-	host2:'newsplus247.com'
+	host1:'newsplus247.com',
+	host2:'newsplus2471111.com'
 };
 
 //các domain không cần tự động kéo
@@ -36,7 +36,7 @@ var domain_no_scoll = [
 //các dom class
 var domClass = {
 	class1:'read-title',
-	class2:'wp-block-latest-posts__featured-image',
+	class2:'jeg_post_title',
 	class3:'jeg_post_title'
 };
 
@@ -95,16 +95,9 @@ function checkdomain(){
 		if(hostname_domain == domain.host1){
 
 			// lấy ngẫu nhiêm url trong dom
-			if(getRandomInt(2) === 1){
-				let list_item = document.getElementsByClassName(domClass.class1);
-				url_random = list_item[getRandomInt(list_item.length)].querySelectorAll("a")[0].href;
-
-			}else{
-				let list_item2 = document.getElementsByClassName(domClass.class2);
-				url_random = list_item2[getRandomInt(list_item2.length)].querySelectorAll("a")[0].href;
-
-			}
-
+			let list_item2 = document.getElementsByClassName(domClass.class2);
+			url_random = list_item2[getRandomInt(list_item2.length)].querySelectorAll("a")[0].href;
+			
 			//lưu vào bộ nhớ
 			chrome.storage.local.set({url_random: url_random}, function() {
 	          console.log('Value storage is set to url_random');
