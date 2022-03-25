@@ -6,10 +6,27 @@ https://chrome.google.com/webstore/detail/vpn-professional-free-unl/foiopecknacm
 
 //domain site gốc
 var domain = {
+	// auto chuyển trang
 	host1:'tintuc22h.com',
-	host2:'news22h.com'
+
+	// auto kéo view
+	host2:'onlinetq.blogspot.com',
+	host3:'hvtrituehay.blogspot.com'
 };
 
+//trạng thái của trang status_page
+//---1 : kéo view cho trang
+//---2 : kéo quảng cáo cho trang
+var status_page = true;
+
+var elemenTag = {
+	a:'a',
+	li:'li'
+}
+var list_domain_views = [
+	'onlinetq.blogspot.com',
+	'hvtrituehay.blogspot.com'
+]
 //các domain không cần tự động kéo
 var domain_no_scoll = [
 	'www.google.com',
@@ -37,7 +54,7 @@ var domain_no_scoll = [
 var domClass = {
 	class1:'read-title',
 	class2:'wp-block-latest-posts__featured-image',
-	class3:'jeg_post_title'
+	class3:'posts'
 };
 
 
@@ -91,82 +108,122 @@ function checkdomain(){
 		
 		let url_random = "";
 		let hostname_domain = String(window.location.hostname);
-		clearInterval(scrolldelay);
-		if(hostname_domain == domain.host1){
+		// clearInterval(scrolldelay);
 
-			// lấy ngẫu nhiêm url trong dom
-			if(getRandomInt(2) === 1){
-				let list_item = document.getElementsByClassName(domClass.class1);
-				url_random = list_item[getRandomInt(list_item.length)].querySelectorAll("a")[0].href;
-
-			}else{
-				let list_item2 = document.getElementsByClassName(domClass.class2);
-				url_random = list_item2[getRandomInt(list_item2.length)].querySelectorAll("a")[0].href;
-
-			}
-
-			//lưu vào bộ nhớ
-			chrome.storage.local.set({url_random: url_random}, function() {
-	          console.log('Value storage is set to url_random');
-	        });
-			
-			window.location.href = url_random;
-			smoothscroll();
-			return;
+		//nếu là tăng view cho page thì vào đây
+		if(status_page){
+			getViewPage();
+		}else{
+			console.log(2);
 		}
 
-		if(hostname_domain == domain.host2){
 
-			//tìm dom url
-			let list_domain_item2 = document.getElementsByClassName(domClass.class3);
+		// if(hostname_domain == domain.host1){
 
-			//kiểm tra dom
-			list_domain_item2 = list_domain_item2 ? list_domain_item2 : "https://"+domain.host2;
+		// 	// lấy ngẫu nhiêm url trong dom
+		// 	if(getRandomInt(2) === 1){
+		// 		let list_item = document.getElementsByClassName(domClass.class1);
+		// 		url_random = list_item[getRandomInt(list_item.length)].querySelectorAll("a")[0].href;
 
-			//lấy 1 url ngẫu nhiên trong dom
-			let url_random2 = list_domain_item2[getRandomInt(list_domain_item2.length)].querySelectorAll("a");
+		// 	}else{
+		// 		let list_item2 = document.getElementsByClassName(domClass.class2);
+		// 		url_random = list_item2[getRandomInt(list_item2.length)].querySelectorAll("a")[0].href;
+
+		// 	}
+
+		// 	//lưu vào bộ nhớ
+		// 	chrome.storage.local.set({url_random: url_random}, function() {
+	 //          console.log('Value storage is set to url_random');
+	 //        });
 			
-			//click url ngẫu nhiên lấy đc con khong thi chuyen huong ve trang chu
-			url_random2.length > 0 ? url_random2[0].click() : window.location.href = "https://"+domain.host2;
-		}
+		// 	window.location.href = url_random;
+		// 	smoothscroll();
+		// 	return;
+		// }
+
+		// if(hostname_domain == domain.host2 || hostname_domain == domain.host3){
+
+
+		// 	//tìm dom url
+		// 	let list_domain_item2 = document.getElementsByClassName(domClass.class3);
+
+		// 	//kiểm tra dom
+		// 	list_domain_item2 = list_domain_item2 ? list_domain_item2 : "https://"+domain.host2;
+
+		// 	//lấy 1 url ngẫu nhiên trong dom
+		// 	let url_random2 = list_domain_item2[getRandomInt(list_domain_item2.length)].querySelectorAll("a");
+			
+		// 	//click url ngẫu nhiên lấy đc con khong thi chuyen huong ve trang chu
+		// 	url_random2.length > 0 ? url_random2[0].click() : window.location.href = "https://"+domain.host2;
+		// }
 		
-		// nếu khong phải domain chính của site chuyển hướng về site của mình theo url đã lưu trong storage
-		if(domain.host1 !== hostname_domain && domain.host2 !== hostname_domain){
+		// // nếu khong phải domain chính của site chuyển hướng về site của mình theo url đã lưu trong storage
+		// if(domain.host1 !== hostname_domain && domain.host2 !== hostname_domain){
 			
-			//nếu là url click quảng cáo thì về trang chủ của url đó trước
-			//rồi mà chuyển về trang của mình
+		// 	//nếu là url click quảng cáo thì về trang chủ của url đó trước
+		// 	//rồi mới chuyển về trang của mình
 
-			if(document.location.href != document.location.origin+"/"){
+		// 	if(document.location.href != document.location.origin+"/"){
 
-				//số set số lần loadpage
-				if(sessionStorage.getItem("count_loadPage") == null){
-					sessionStorage.setItem("count_loadPage",count_siteOut+1);
-				}
+		// 		//số set số lần loadpage
+		// 		if(sessionStorage.getItem("count_loadPage") == null){
+		// 			sessionStorage.setItem("count_loadPage",count_siteOut+1);
+		// 		}
 
-				let coutPage = parseInt(sessionStorage.getItem("count_loadPage"));
-				coutPage++;
-				sessionStorage.setItem("count_loadPage",coutPage);
+		// 		let coutPage = parseInt(sessionStorage.getItem("count_loadPage"));
+		// 		coutPage++;
+		// 		sessionStorage.setItem("count_loadPage",coutPage);
 
-				//nếu số lần load page lớn hớn 15 thì thì chuyển về site chính 
-				//còn k chuyển về host của site hiện tại
-				if(parseInt(sessionStorage.getItem("count_loadPage")) > 15){
-					chrome.storage.local.get(['url_random'], function(result) {
-			        	let locationDomain = result.url_random.length !== undefined ? result.url_random : "https://"+domain.host1;
-			          	window.location.href = locationDomain;
-			        });
-				}else{
-						window.location.href = document.location.origin;
-				}
-				return;
-			}
+		// 		//nếu số lần load page lớn hớn 15 thì thì chuyển về site chính 
+		// 		//còn k chuyển về host của site hiện tại
+		// 		if(parseInt(sessionStorage.getItem("count_loadPage")) > 15){
+		// 			chrome.storage.local.get(['url_random'], function(result) {
+		// 	        	let locationDomain = result.url_random.length !== undefined ? result.url_random : "https://"+domain.host1;
+		// 	          	window.location.href = locationDomain;
+		// 	        });
+		// 		}else{
+		// 				window.location.href = document.location.origin;
+		// 		}
+		// 		return;
+		// 	}
 
-	        chrome.storage.local.get(['url_random'], function(result) {
-	        	sessionStorage.setItem("count_loadPage",0);
-	        	let locationDomain = result.url_random.length !== undefined ? result.url_random : "https://"+domain.host1;
-	          	window.location.href = locationDomain;
-	          	return;
-	        });
-		}
+	 //        chrome.storage.local.get(['url_random'], function(result) {
+	 //        	sessionStorage.setItem("count_loadPage",0);
+	 //        	let locationDomain = result.url_random.length !== undefined ? result.url_random : "https://"+domain.host1;
+	 //          	window.location.href = locationDomain;
+	 //          	return;
+	 //        });
+		// }
+}
+
+//tăng view
+function getViewPage(){
+
+	let domain_random = list_domain_views[getRandomInt(list_domain_views.length)];
+
+	let hostname_domain = String(window.location.hostname);
+
+	//nếu domain random mà bằng với domain chính thì random url tiếp theo
+	//còn không thì sang domain mới
+	if(domain_random == hostname_domain){
+
+		// //tìm dom url
+		let list_domain_item2 = document.getElementsByClassName(domClass.class3)[0].getElementsByTagName(elemenTag.li);
+		
+		//lấy 1 url ngẫu nhiên trong dom
+		let urlPage = list_domain_item2[getRandomInt(list_domain_item2.length)].getElementsByTagName(elemenTag.a);
+		
+		//click url ngẫu nhiên lấy đc con khong thi chuyen huong ve trang chu
+		urlPage.length > 0 || urlPage !== undefined ? urlPage[0].click() : "https://"+domain_random;
+
+	}else{
+
+		window.location.href =  "https://"+domain_random;
+
+	}
+
+	
+
 }
 
 //fillter
@@ -221,9 +278,13 @@ window.onscroll = function(ev) {
 				deleteCookies(); 
 
 				// kiểm tra domain
+				// setTimeout(()=>{
+				// 	checkdomain();
+				// },getRandomInt(15)*2000);
+				
 				setTimeout(()=>{
 					checkdomain();
-				},getRandomInt(15)*2000);
+				},1000);
     }
 };
 
