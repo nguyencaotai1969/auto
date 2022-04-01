@@ -15,8 +15,8 @@ var domain = {
 };
 
 //trạng thái của trang status_page
-//---1 : kéo view cho trang
-//---2 : kéo quảng cáo cho trang
+//---true : kéo view cho trang
+//---false : kiếm tiền click quảng cáo cho trang
 var status_page = true;
 
 var elemenTag = {
@@ -25,7 +25,10 @@ var elemenTag = {
 }
 var list_domain_views = [
 	'onlinetq.blogspot.com',
-	'hvtrituehay.blogspot.com'
+	'hvtrituehay.blogspot.com',
+	'hotnews24h.xyz',
+	'newshot24h.top',
+	'newsfun24h.xyz'
 ]
 //các domain không cần tự động kéo
 var domain_no_scoll = [
@@ -281,7 +284,7 @@ window.onscroll = function(ev) {
 				// setTimeout(()=>{
 				// 	checkdomain();
 				// },getRandomInt(15)*2000);
-				
+
 				setTimeout(()=>{
 					checkdomain();
 				},1000);
