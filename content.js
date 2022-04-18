@@ -30,7 +30,8 @@ var list_domain_views = [
 	'newshot24h.top',
 	'newsfun24h.xyz',
 	'kouza.info',
-	'news.remaps.vn'
+	'news.remaps.vn',
+	'agriviet.com'
 ]
 //các domain không cần tự động kéo
 var domain_no_scoll = [
