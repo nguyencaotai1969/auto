@@ -28,7 +28,9 @@ var list_domain_views = [
 	'hvtrituehay.blogspot.com',
 	'hotnews24h.xyz',
 	'newshot24h.top',
-	'newsfun24h.xyz'
+	'newsfun24h.xyz',
+	'kouza.info',
+	'news.remaps.vn'
 ]
 //các domain không cần tự động kéo
 var domain_no_scoll = [
@@ -45,6 +47,7 @@ var domain_no_scoll = [
 	'accounts.google.com',
 	'gist.github.com',
 	'toidicode.com',
+	'www.geeksforgeeks.org',
 	// 'news22h.com',
 	// 'tintuc22h.com',
 	'order.surfshark.com',
@@ -55,7 +58,7 @@ var domain_no_scoll = [
 
 //các dom class
 var domClass = {
-	class1:'read-title',
+	class1:'a',
 	class2:'wp-block-latest-posts__featured-image',
 	class3:'posts'
 };
@@ -201,7 +204,6 @@ function checkdomain(){
 
 //tăng view
 function getViewPage(){
-
 	let domain_random = list_domain_views[getRandomInt(list_domain_views.length)];
 
 	let hostname_domain = String(window.location.hostname);
@@ -210,14 +212,29 @@ function getViewPage(){
 	//còn không thì sang domain mới
 	if(domain_random == hostname_domain){
 
-		// //tìm dom url
-		let list_domain_item2 = document.getElementsByClassName(domClass.class3)[0].getElementsByTagName(elemenTag.li);
+		let url_page_info =	document.getElementsByTagName(domClass.class1);
+		let arr_url_to_page = [];
+		for (var i = 0; i < url_page_info.length; i++) {
+			arr_url_to_page.push(url_page_info[i].href);
 		
-		//lấy 1 url ngẫu nhiên trong dom
-		let urlPage = list_domain_item2[getRandomInt(list_domain_item2.length)].getElementsByTagName(elemenTag.a);
+		}
+
+		//fillter Items in arrays
+		function filterItems(str_filter,array_data) {
+		  return array_data.filter(function(el) {
+		      return el.toLowerCase().indexOf(str_filter.toLowerCase()) > -1;
+		  })
+		}
+
+		//removeDuplicates
+		function removeDuplicates(arr) {
+		        return arr.filter((item, 
+		            index) => arr.indexOf(item) === index);
+		}
 		
-		//click url ngẫu nhiên lấy đc con khong thi chuyen huong ve trang chu
-		urlPage.length > 0 || urlPage !== undefined ? urlPage[0].click() : "https://"+domain_random;
+		//url page 
+		let url_page = removeDuplicates(filterItems(domain_random,arr_url_to_page));
+		window.location.href = url_page[getRandomInt(url_page.length)]; 
 
 	}else{
 
