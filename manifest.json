@@ -6,7 +6,7 @@
    },
    "description": "Công cụ hỗ trợ lấy Tương Tác",
    "content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'",
-   "manifest_version": 3,
+   "manifest_version": 2,
    "content_scripts":[
         {
         "matches" : ["<all_urls>","*://*/*"],
