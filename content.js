@@ -26,12 +26,12 @@ var elemenTag = {
 var list_domain_views = [
 	'onlinetq.blogspot.com',
 	'hvtrituehay.blogspot.com',
-	'hotnews24h.xyz',
-	'newshot24h.top',
-	'newsfun24h.xyz',
+	// 'hotnews24h.xyz',
+	// 'newshot24h.top',
+	// 'newsfun24h.xyz',
 	'kouza.info',
-	'news.remaps.vn',
-	'agriviet.com'
+	// 'news.remaps.vn',
+	// 'agriviet.com'
 ]
 //các domain không cần tự động kéo
 var domain_no_scoll = [
