@@ -30,6 +30,7 @@ var list_domain_views = [
 	// 'newshot24h.top',
 	// 'newsfun24h.xyz',
 	'kouza.info',
+	'www.upi.com',
 	// 'news.remaps.vn',
 	// 'agriviet.com'
 ]
@@ -102,11 +103,11 @@ function getRandomInt(max) {
 
 //kiểm tra site đã load đủ giữ liệu ra hay chưa
 if (document.readyState == "complete") {
-      	pageScroll();
+      	// pageScroll();
 }else{
 	// chưa load xong check tiếp khi load xong thì thôi
 	window.addEventListener("load", function() {
-         pageScroll();
+         // pageScroll();
     }, false);
 }
 
@@ -205,8 +206,8 @@ function checkdomain(){
 
 //tăng view
 function getViewPage(){
-	let domain_random = list_domain_views[getRandomInt(list_domain_views.length)];
-
+	// let domain_random = list_domain_views[getRandomInt(list_domain_views.length)];
+	let domain_random =	'www.upi.com';
 	let hostname_domain = String(window.location.hostname);
 
 	//nếu domain random mà bằng với domain chính thì random url tiếp theo
@@ -233,9 +234,29 @@ function getViewPage(){
 		            index) => arr.indexOf(item) === index);
 		}
 		
+		//autoclik adsense
+		let listad = [];
+		var AdElements = document.getElementsByClassName('GoogleActiveViewElement');
+		    for (var i = 0; i < AdElements.length; i++) {
+		  
+		    	console.log(AdElements[i].contentWindow);
+		        // AdElements[i].addEventListener('mouseenter', function (e) {
+		        //     timeEntered = new Date().getTime();
+		        //     AdId = e.target.getAttribute('id');
+		        //     console.log(AdId);
+		        // });
+		        // AdElements[i].addEventListener('mouseleave', function (e) {
+		        //     setTimeout(function () {
+		        //         timeEntered = 0;
+		        //         AdId = e.target.getAttribute('id');
+		        //     }, 500);
+		        // });
+		    }
+
 		//url page 
-		let url_page = removeDuplicates(filterItems(domain_random,arr_url_to_page));
-		window.location.href = url_page[getRandomInt(url_page.length)]; 
+		//coment tạm
+		// let url_page = removeDuplicates(filterItems(domain_random,arr_url_to_page));
+		// window.location.href = url_page[getRandomInt(url_page.length)]; 
 
 	}else{
 
