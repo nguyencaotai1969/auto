@@ -30,6 +30,7 @@ var list_domain_views = [
 	// 'newshot24h.top',
 	// 'newsfun24h.xyz',
 	'kouza.info',
+	'www.blogsharehack.xyz'
 	// 'news.remaps.vn',
 	// 'agriviet.com'
 ]
