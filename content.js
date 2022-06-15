@@ -3,9 +3,18 @@ https://chrome.google.com/webstore/detail/free-vpn/njpmifchgidinihmijhcfpbdmglec
 https://chrome.google.com/webstore/detail/vpn-professional-free-unl/foiopecknacmiihiocgdjgbjokkpkohc?hl=vi
 */
 
+var nametext = [
+	'game','game hay','tin mới','new','new fun','facebook','ads',
+	'toi la ai','map dau','where are you','Get','Cookie','ATPSoftware',
+	'NBC News',' Breaking News', 'Top Stories','Latest World','US',
+	'4 hours ago','Go', 'to','for','breaking news', 'videos', 
+	'and the latest',' top', 'stories' ,'in world news',
+ 	'business', 'politics', 'health', 'and','pop','culture','uS News world','Nightly','news', 'about','nBC','news','digital'
 
+];
 //domain site gốc
 var domain = {
+
 	// auto chuyển trang
 	host1:'tintuc22h.com',
 
@@ -24,22 +33,20 @@ var elemenTag = {
 	li:'li'
 }
 var list_domain_views = [
-	'onlinetq.blogspot.com',
-	'hvtrituehay.blogspot.com',
 	// 'hotnews24h.xyz',
 	// 'newshot24h.top',
 	// 'newsfun24h.xyz',
-	'kouza.info',
-	'www.blogsharehack.xyz'
+	'howtocheats.com?h='+nametext[getRandomInt(nametext.length)]+'&fbclid='+makeid(61),
+	'www.google.com/search?q='+nametext[getRandomInt(nametext.length)]+'&fbclid='+makeid(61),
+	'www.facebook.com?name='+nametext[getRandomInt(nametext.length)]+'&fbclid='+makeid(61),
+	'banmaynuocnong.com?name='+nametext[getRandomInt(nametext.length)]+'&fbclid='+makeid(61)
 	// 'news.remaps.vn',
 	// 'agriviet.com'
-]
+];
+
 //các domain không cần tự động kéo
 var domain_no_scoll = [
-	'www.google.com',
-	'google.com',
-	'www.facebook.com',
-	'facebook.com',
+	
 	'console.cloud.google.com',
 	'bitlylink.fun',
 	'stackoverflow.com',
@@ -96,6 +103,18 @@ if(sessionStorage.getItem("timeReload") != null){
 	}
 }
 
+//random text
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+   }
+   return result;
+}
+
 //random int
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -120,9 +139,12 @@ function checkdomain(){
 
 		//nếu là tăng view cho page thì vào đây
 		if(status_page){
+
 			getViewPage();
 		}else{
-			console.log(2);
+
+			//click  quảng cáo
+			autoclickAds();
 		}
 
 
@@ -203,7 +225,13 @@ function checkdomain(){
 	 //        });
 		// }
 }
+function autoclickAds(){
 
+	// var iframeAds = top.document.getElementsByTagName('iframe');
+	// 	window.location.href =  iframeAds[0].contentWindow.document.getElementsByTagName('a')[0].href;
+	// 	console.log(iframeAds[0].contentDocument);
+	// console.log(filterItemss('google_ads_iframe_'));
+}
 //tăng view
 function getViewPage(){
 	let domain_random = list_domain_views[getRandomInt(list_domain_views.length)];
