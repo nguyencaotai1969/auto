@@ -36,7 +36,7 @@ var list_domain_views = [
 	// 'hotnews24h.xyz',
 	// 'newshot24h.top',
 	// 'newsfun24h.xyz',
-	'howtocheats.com?h='+nametext[getRandomInt(nametext.length)]+'&fbclid='+makeid(61),
+	// 'howtocheats.com?h='+nametext[getRandomInt(nametext.length)]+'&fbclid='+makeid(61),
 	'www.google.com/search?q='+nametext[getRandomInt(nametext.length)]+'&fbclid='+makeid(61),
 	'www.facebook.com?name='+nametext[getRandomInt(nametext.length)]+'&fbclid='+makeid(61),
 	'banmaynuocnong.com?fbclid='+makeid(61),
