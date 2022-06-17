@@ -39,7 +39,8 @@ var list_domain_views = [
 	'howtocheats.com?h='+nametext[getRandomInt(nametext.length)]+'&fbclid='+makeid(61),
 	'www.google.com/search?q='+nametext[getRandomInt(nametext.length)]+'&fbclid='+makeid(61),
 	'www.facebook.com?name='+nametext[getRandomInt(nametext.length)]+'&fbclid='+makeid(61),
-	'banmaynuocnong.com?name='+nametext[getRandomInt(nametext.length)]+'&fbclid='+makeid(61)
+	'banmaynuocnong.com?fbclid='+makeid(61),
+	'kelashackers.com?fbclid='+makeid(61),
 	// 'news.remaps.vn',
 	// 'agriviet.com'
 ];
